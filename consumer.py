@@ -1,8 +1,12 @@
 from kafka import KafkaConsumer
 import threading
+import app
 
 def _read_messages():
-    consumer = KafkaConsumer('test-topic', group_id = 'test-group', bootstrap_servers=['localhost:9092'])
+    topic = app.app.config['KAFKA_TOPIC']
+    group_id = app.app.config['KAFKA_GROUP']
+    bootstrap_servers = app.app.config['KAFKA_BOOTSTRAP_SERVER']
+    consumer = KafkaConsumer(topic, group_id = group_id, bootstrap_servers=bootstrap_servers)
     for message in consumer:
         print(message.value.decode('utf-8'))
         
